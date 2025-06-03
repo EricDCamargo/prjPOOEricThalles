@@ -2,10 +2,10 @@ package fatec.poo.model;
 
 /**
  *
- * @author Thalles
+ * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class Pessoa {
-    private String nome;
+    private final String nome;
     private String endereco;
     private String telefone;
     

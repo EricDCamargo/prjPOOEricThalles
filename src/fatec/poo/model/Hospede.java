@@ -2,10 +2,10 @@ package fatec.poo.model;
 
 /**
  *
- * @author Thalles
+ * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class Hospede extends Pessoa {
-    private String cpf;
+    private final String cpf;
     private double taxaDesconto;
 
     public Hospede(String cpf, String nome) {

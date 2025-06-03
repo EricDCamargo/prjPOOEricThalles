@@ -1,22 +1,27 @@
 package fatec.poo.model;
-
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 /**
  *
- * @author Thalles
+ * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class Registro {
-    private int codigo;
-    private LocalDate dataEntrada;
+    private final int codigo;
+    private final LocalDate dataEntrada;
     private LocalDate dataSaida;
     private double valorHospedagem;
-    private Recepcionista recepcionista;
+    private final Recepcionista recepcionista;
+    private Hospede hospede;
+    private Quarto quarto;
+    private final ArrayList<ServicoQuarto> servicosQuarto; 
+    
 
     public Registro(int codigo, LocalDate dataEntrada, Recepcionista recepcionista){
         this.codigo = codigo;
         this.dataEntrada = dataEntrada;
         this.recepcionista = recepcionista;
+        this.servicosQuarto = new ArrayList<>();
     }
 
     public void setDataSaida(LocalDate dataSaida) {
@@ -40,14 +45,21 @@ public class Registro {
     }
     
     public void reservarQuarto(Hospede hospede, Quarto quarto){
+        this.hospede = hospede;
+        this.quarto = quarto;
         quarto.getSituacao(); //Verificar a necessidade de criar um método set na Classe Quarto
     }
     
-    public double liberarQuarto(Hospede hospede, Quarto quarto, double totalServicos){
-        double valor = quarto.getValorDiaria();
-        double desconto = hospede.getTaxaDesconto();
-        valorHospedagem = valor * desconto + totalServicos;
-        return valorHospedagem;
+     public double liberarQuarto() {
+        int dias = dataEntrada.until(dataSaida).getDays();
+        double valorHospedagem = quarto.liberar(dias);
+        double valorDesconto = valorHospedagem * (hospede.getTaxaDesconto() / 100);
+        double totalServicos = servicosQuarto.stream().mapToDouble(ServicoQuarto::getValor).sum();
+        return (valorHospedagem - valorDesconto) + totalServicos;
+    }
+
+    public void addServicoQuarto(ServicoQuarto servico) {
+        servicosQuarto.add(servico);
     }
     
 }

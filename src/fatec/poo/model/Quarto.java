@@ -1,18 +1,17 @@
 package fatec.poo.model;
 
-import java.time.temporal.ChronoUnit;
-
 /**
  *
- * @author Thalles
+ * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class Quarto {
-   private int numero;
-   private String tipo;
+   private final int numero;
+   private final String tipo;
    private boolean situacao;
-   private double valorDiaria;
+   private final double valorDiaria;
    private double totalFaturado;
-   private Registro registro;
+   
+   
    
    public Quarto(int numero, String tipo, double valorDiaria){
        this.numero = numero;
@@ -20,17 +19,14 @@ public class Quarto {
        this.valorDiaria = valorDiaria;
    }
    
-    private void reservar(){
-        situacao = true;
+    public void reservar() {
+        this.situacao = true;
     }
     
-    private double liberar(int qtdDias){
-        qtdDias = (int) ChronoUnit.DAYS.between(registro.getDataEntrada(), 
-                                                registro.getDataSaida());
-        situacao = false;
-        double valorHospedagem = valorDiaria * qtdDias;
-        totalFaturado += valorHospedagem;
-        return valorHospedagem;
+    public double liberar(int qtdDias){
+        this.situacao = false;
+        this.totalFaturado += qtdDias * this.valorDiaria;
+        return totalFaturado;
     }
 
     public int getNumero() {

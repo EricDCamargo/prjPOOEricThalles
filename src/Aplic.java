@@ -1,20 +1,27 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
+import fatec.poo.model.Hospede;
+import fatec.poo.model.Quarto;
+import fatec.poo.model.Recepcionista;
+import fatec.poo.model.Registro;
+import fatec.poo.model.ServicoQuarto;
+import java.time.LocalDate;
 
 /**
  *
- * @author Thalles
+ * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class Aplic {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
-        // TODO code application logic here
+        Recepcionista recepcionista = new Recepcionista(123, "The Eric");
+        Hospede hospede = new Hospede("123.123.123.12", "The Thalles");
+        Quarto quarto = new Quarto(123, "D", 120);
+        Registro registro = new Registro(1, LocalDate.of(2025, 6, 3), recepcionista);
+         
+        hospede.setTaxaDesconto(10);
+        registro.reservarQuarto(hospede, quarto);
+        registro.setDataSaida(LocalDate.of(2025, 6, 7));
+        registro.addServicoQuarto(new ServicoQuarto(1, "Café da manhã"));
+        System.out.println("Total a pagar: R$" + registro.liberarQuarto());
     }
     
 }

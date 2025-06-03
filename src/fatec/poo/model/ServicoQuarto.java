@@ -2,11 +2,11 @@ package fatec.poo.model;
 
 /**
  *
- * @author Thalles
+ * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class ServicoQuarto {
-    private int codigo;
-    private String descricao;
+    private final int codigo;
+    private final String descricao;
     private double valor;
     
     public ServicoQuarto(int codigo, String descricao){

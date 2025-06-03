@@ -2,10 +2,10 @@ package fatec.poo.model;
 
 /**
  *
- * @author Thalles
+ * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class Recepcionista extends Pessoa {
-    private int regFunc;
+    private final int regFunc;
     private String turno;
     
     public Recepcionista(int regFunc, String nome){
