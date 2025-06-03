@@ -47,14 +47,24 @@ public class Registro {
     public void reservarQuarto(Hospede hospede, Quarto quarto){
         this.hospede = hospede;
         this.quarto = quarto;
-        quarto.getSituacao(); //Verificar a necessidade de criar um método set na Classe Quarto
+        quarto.reservar();
     }
     
      public double liberarQuarto() {
         int dias = dataEntrada.until(dataSaida).getDays();
-        double valorHospedagem = quarto.liberar(dias);
-        double valorDesconto = valorHospedagem * (hospede.getTaxaDesconto() / 100);
-        double totalServicos = servicosQuarto.stream().mapToDouble(ServicoQuarto::getValor).sum();
+        this.valorHospedagem = quarto.liberar(dias);
+        double valorDesconto = valorHospedagem * hospede.getTaxaDesconto();
+        
+        
+        
+        double totalServicos = 0;
+        for (ServicoQuarto servico : servicosQuarto) {
+            if (servico.getValor() <= 0) {
+                throw new IllegalArgumentException("O valor do serviço '" + servico.getDescricao() + "' não foi definido corretamente.");
+            }
+        totalServicos += servico.getValor();
+        }
+
         return (valorHospedagem - valorDesconto) + totalServicos;
     }
 

@@ -14,7 +14,7 @@ public class Hospede extends Pessoa {
     }
     
     public void setTaxaDesconto(double taxaDesconto){
-        this.taxaDesconto = taxaDesconto/100;
+        this.taxaDesconto = taxaDesconto / 100;
     }
     
     public String getCpf(){

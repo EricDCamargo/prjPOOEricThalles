@@ -14,6 +14,10 @@ public class Quarto {
    
    
    public Quarto(int numero, String tipo, double valorDiaria){
+       if (!tipo.equals("S") && !tipo.equals("D")) {
+        throw new IllegalArgumentException("Tipo de quarto inválido. Use 'S' para solteiro ou 'D' para casado.");
+    }
+
        this.numero = numero;
        this.tipo = tipo;
        this.valorDiaria = valorDiaria;
@@ -24,9 +28,15 @@ public class Quarto {
     }
     
     public double liberar(int qtdDias){
+        if (qtdDias <= 0) {
+        throw new IllegalArgumentException("A quantidade de dias deve ser maior que zero.");
+    }
+
         this.situacao = false;
-        this.totalFaturado += qtdDias * this.valorDiaria;
-        return totalFaturado;
+        double valorHospedagem = qtdDias * this.valorDiaria;
+        this.totalFaturado += valorHospedagem;
+        return valorHospedagem;
+
     }
 
     public int getNumero() {

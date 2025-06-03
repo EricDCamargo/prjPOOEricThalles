@@ -14,6 +14,9 @@ public class Recepcionista extends Pessoa {
     }
     
     public void setTurno(String turno){
+        if (!turno.equals("M") && !turno.equals("T") && !turno.equals("N")) {
+            throw new IllegalArgumentException("Turno inválido. Use 'M' para Manhã, 'T' para Tarde ou 'N' para Noite.");
+        }
         this.turno = turno;
     }
     
