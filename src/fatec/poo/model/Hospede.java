@@ -1,5 +1,7 @@
 package fatec.poo.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
@@ -7,10 +9,14 @@ package fatec.poo.model;
 public class Hospede extends Pessoa {
     private final String cpf;
     private double taxaDesconto;
-
-    public Hospede(String cpf, String nome) {
+    private final ArrayList<Registro> registros; 
+    
+    public Hospede(String cpf, String nome, Registro registro) {
         super(nome);
         this.cpf = cpf;
+        this.registros = new ArrayList<>();
+        this.registros.add(registro);
+        registro.setHospede(this);
     }
     
     public void setTaxaDesconto(double taxaDesconto){
@@ -23,5 +29,5 @@ public class Hospede extends Pessoa {
     
     public double getTaxaDesconto(){
         return taxaDesconto;
-    }  
+    }
 }

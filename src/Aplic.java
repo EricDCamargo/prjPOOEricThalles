@@ -12,11 +12,12 @@ import java.time.LocalDate;
  */
 public class Aplic {
     public static void main(String[] args) {
-        Recepcionista recepcionista = new Recepcionista(123, "The Eric");
-        Hospede hospede = new Hospede("123.123.123.12", "The Thalles");
         Quarto quarto = new Quarto(101, "D", 150);
+        Recepcionista recepcionista = new Recepcionista(123, "The Eric");
         Registro registro = new Registro(1, LocalDate.of(2025, 6, 3), recepcionista);
-         
+        
+        Hospede hospede = new Hospede("123.123.123.12", "The Thalles", registro);
+
         hospede.setTaxaDesconto(10);
         registro.reservarQuarto(hospede, quarto);
         registro.setDataSaida(LocalDate.of(2025, 6, 7));

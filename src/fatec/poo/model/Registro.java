@@ -21,11 +21,16 @@ public class Registro {
         this.codigo = codigo;
         this.dataEntrada = dataEntrada;
         this.recepcionista = recepcionista;
+        recepcionista.addRegistro(this);
         this.servicosQuarto = new ArrayList<>();
     }
 
     public void setDataSaida(LocalDate dataSaida) {
         this.dataSaida = dataSaida;
+    }
+    
+    public void setHospede(Hospede hospede) {
+        this.hospede = hospede;
     }
 
     public int getCodigo() {
@@ -54,8 +59,6 @@ public class Registro {
         int dias = dataEntrada.until(dataSaida).getDays();
         this.valorHospedagem = quarto.liberar(dias);
         double valorDesconto = valorHospedagem * hospede.getTaxaDesconto();
-        
-        
         
         double totalServicos = 0;
         for (ServicoQuarto servico : servicosQuarto) {
