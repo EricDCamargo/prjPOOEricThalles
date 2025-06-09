@@ -6,7 +6,7 @@ package fatec.poo.model;
  */
 public class ServicoQuarto {
     private final int codigo;
-    private final String descricao;
+    private String descricao;
     private double valor;
     
     public ServicoQuarto(int codigo, String descricao){
@@ -16,6 +16,11 @@ public class ServicoQuarto {
     
     public void setValor(double valor){
         this.valor = valor;
+    }
+    
+    //usuario pode alterar a descrição do serviço de quarto?
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
     
     public int getCodigo(){
