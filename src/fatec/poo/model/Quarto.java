@@ -6,14 +6,14 @@ package fatec.poo.model;
  */
 public class Quarto {
    private final int numero;
-   private final String tipo;
+   private String tipo;
    private boolean situacao;
-   private final double valorDiaria;
+   private double valorDiaria;
    private double totalFaturado;
    
    public Quarto(int numero, String tipo, double valorDiaria){
-       if (!tipo.equals("S") && !tipo.equals("D")) {
-        throw new IllegalArgumentException("Tipo de quarto inválido. Use 'S' para solteiro ou 'D' para casado.");
+       if (!tipo.equals("S") && !tipo.equals("C")) {
+        throw new IllegalArgumentException("Tipo de quarto inválido. Use 'S' para solteiro ou 'C' para casado.");
     }
        this.numero = numero;
        this.tipo = tipo;
@@ -32,6 +32,14 @@ public class Quarto {
         double valorHospedagem = qtdDias * this.valorDiaria;
         this.totalFaturado += valorHospedagem;
         return valorHospedagem;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public void setValorDiaria(double valorDiaria) {
+        this.valorDiaria = valorDiaria;
     }
 
     public int getNumero() {

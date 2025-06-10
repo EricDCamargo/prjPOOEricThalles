@@ -7,7 +7,7 @@ package fatec.poo.view;
 
 /**
  *
- * @author Thalles
+ * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class GuiMenu extends javax.swing.JFrame {
 

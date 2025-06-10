@@ -5,6 +5,11 @@
  */
 package fatec.poo.view;
 
+import fatec.poo.control.DaoQuarto;
+import fatec.poo.control.PreparaConexao;
+import fatec.poo.model.Quarto;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Thalles
@@ -43,6 +48,14 @@ public class GuiQuarto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro Quarto");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Nº Quarto");
         jLabel1.setName(""); // NOI18N
@@ -86,15 +99,35 @@ public class GuiQuarto extends javax.swing.JFrame {
 
         btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         btnInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         btnInserir.setText("Inserir");
+        btnInserir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInserirActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Eraser.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/exit.png"))); // NOI18N
         btnSair.setText("Sair");
@@ -170,6 +203,142 @@ public class GuiQuarto extends javax.swing.JFrame {
        dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+       prepCon = new PreparaConexao("",""); //Usuário e senha                            
+       prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
+       prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb");
+       daoQuarto = new DaoQuarto(prepCon.abrirConexao());
+       
+        if (daoQuarto == null) {
+            JOptionPane.showMessageDialog(this, "Erro na conexão com o banco!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        prepCon.fecharConexao();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+      String entrada = txtNQuarto.getText().trim();
+        if(!entrada.matches("\\d+")){
+            JOptionPane.showMessageDialog(this, "Numero do quarto inválido! Digite um valor numérico inteiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            txtNQuarto.setText(null);
+            txtNQuarto.requestFocus();
+            return;
+        }
+        
+        int numeroQuarto = Integer.parseInt(entrada);
+        quarto = daoQuarto.consultar(numeroQuarto);
+        
+        
+        if(quarto != null){
+            txtValorDiaria.setText(String.valueOf(quarto.getValorDiaria()));
+            switch(quarto.getTipo()){
+                case("S"):
+                    rdbSolteiro.setSelected(true);
+                    break;
+                case("C"):
+                    rdbCasal.setSelected(true);
+                    break;
+            }
+            
+            txtNQuarto.setEnabled(false);
+            txtValorDiaria.setEnabled(true);
+            
+            txtValorDiaria.requestFocus();
+            
+            btnConsultar.setEnabled(false);
+            btnInserir.setEnabled(false);
+            btnAlterar.setEnabled(true);
+            btnExcluir.setEnabled(true);
+        }else{
+            txtNQuarto.setEnabled(false);
+            txtValorDiaria.setEnabled(true);
+            
+            txtValorDiaria.requestFocus();
+            
+            btnConsultar.setEnabled(false);
+            btnInserir.setEnabled(true);
+            btnAlterar.setEnabled(false);
+            btnExcluir.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    
+     private String getSelectedTipo() {
+        if (rdbSolteiro.isSelected()) return "S";
+        if (rdbCasal.isSelected()) return "C";
+        
+        System.out.print(rdbCasal.getSelectedObjects());
+        return ""; 
+    }
+    
+    
+    private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        quarto = new Quarto(Integer.parseInt(txtNQuarto.getText()), getSelectedTipo(), Double.parseDouble(txtValorDiaria.getText()));
+        
+        //rever açociação binaria
+        
+        daoQuarto.inserir(quarto);
+        
+        txtNQuarto.setText(null);
+        txtValorDiaria.setText(null);
+        rdbSolteiro.setSelected(true);
+        
+        txtNQuarto.setEnabled(true);
+        txtValorDiaria.setEnabled(false);
+        txtNQuarto.requestFocus();
+        
+        
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+        
+    }//GEN-LAST:event_btnInserirActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0) {
+            
+            quarto.setValorDiaria(Double.parseDouble(txtValorDiaria.getText()));
+            quarto.setTipo(getSelectedTipo());
+            
+            daoQuarto.alterar(quarto);
+        }
+        
+        
+        txtNQuarto.setText(null);
+        txtValorDiaria.setText(null);
+        rdbSolteiro.setSelected(true);
+        
+        txtNQuarto.setEnabled(true);
+        txtNQuarto.requestFocus();    
+        
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
+            daoQuarto.excluir(quarto); 
+        }
+        
+        txtNQuarto.setText(null);
+        txtValorDiaria.setText(null);
+        rdbSolteiro.setSelected(true);
+        
+        txtNQuarto.setEnabled(true);
+        txtValorDiaria.setEnabled(false);
+        txtNQuarto.requestFocus(); 
+        
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btgrpTipo;
     private javax.swing.JButton btnAlterar;
@@ -185,4 +354,7 @@ public class GuiQuarto extends javax.swing.JFrame {
     private javax.swing.JTextField txtNQuarto;
     private javax.swing.JTextField txtValorDiaria;
     // End of variables declaration//GEN-END:variables
+    private DaoQuarto daoQuarto=null;
+    private Quarto quarto=null;
+    private PreparaConexao prepCon=null;
 }

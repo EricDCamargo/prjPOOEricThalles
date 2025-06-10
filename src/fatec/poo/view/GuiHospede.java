@@ -5,6 +5,11 @@
  */
 package fatec.poo.view;
 
+import fatec.poo.control.DaoHospede;
+import fatec.poo.control.PreparaConexao;
+import fatec.poo.model.Hospede;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Thalles
@@ -45,6 +50,14 @@ public class GuiHospede extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro Hóspede");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("CPF");
 
@@ -64,15 +77,35 @@ public class GuiHospede extends javax.swing.JFrame {
 
         btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         btnInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         btnInserir.setText("Inserir");
+        btnInserir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInserirActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Eraser.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/exit.png"))); // NOI18N
         btnSair.setText("Sair");
@@ -151,9 +184,109 @@ public class GuiHospede extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
+    private void limparCampos() {
+        txtCpf.setText("");
+        txtNome.setText("");
+        txtEndereco.setText("");
+        txtTelefone.setText("");
+        txtTxDesconto.setText("");
+    }
+
+    private void resetarEstadoInicial() {
+        txtCpf.setEnabled(true);
+        txtCpf.requestFocus();
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+    }
+
+    
+    
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+       prepCon = new PreparaConexao("",""); //Usuário e senha                            
+       prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
+       prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb");
+       
+       daoHospede = new DaoHospede(prepCon.abrirConexao());
+       if (daoHospede == null) {
+            JOptionPane.showMessageDialog(this, "Erro na conexão com o banco!", "Erro", JOptionPane.ERROR_MESSAGE);
+       }
+       
+    }//GEN-LAST:event_formWindowOpened
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+         prepCon.fecharConexao();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+
+        hospede = daoHospede.consultar(hospede.limparCPF(txtCpf.getText()));
+
+        if (hospede == null) {
+            txtCpf.setEnabled(false);
+            txtNome.requestFocus();
+            btnConsultar.setEnabled(false);
+            btnInserir.setEnabled(true);
+            btnAlterar.setEnabled(false);
+            btnExcluir.setEnabled(false);
+        } else {
+            txtNome.setText(hospede.getNome());
+            txtEndereco.setText(hospede.getEndereco());
+            txtTelefone.setText(hospede.getTelefone());
+            txtTxDesconto.setText(String.valueOf(hospede.getTaxaDesconto()));
+        
+            txtCpf.setEnabled(false);
+            btnConsultar.setEnabled(false);
+            btnInserir.setEnabled(false);
+            btnAlterar.setEnabled(true);
+            btnExcluir.setEnabled(true);
+        }
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+         if (Hospede.validarCPF(txtCpf.getText())) {
+            JOptionPane.showMessageDialog(null, "CPF inválido");
+            txtCpf.requestFocus();
+            return;
+        }
+        hospede = new Hospede(hospede.limparCPF(txtCpf.getText()), txtNome.getText());
+        hospede.setEndereco(txtEndereco.getText());
+        hospede.setTelefone(txtTelefone.getText());
+        hospede.setTaxaDesconto(Double.parseDouble(txtTxDesconto.getText()));
+
+        daoHospede.inserir(hospede);
+
+        limparCampos();
+        resetarEstadoInicial();
+    }//GEN-LAST:event_btnInserirActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        hospede.setNome(txtNome.getText());
+        hospede.setEndereco(txtEndereco.getText());
+        hospede.setTelefone(txtTelefone.getText());
+        hospede.setTaxaDesconto(Double.parseDouble(txtTxDesconto.getText()));
+
+        daoHospede.alterar(hospede);
+
+        limparCampos();
+        resetarEstadoInicial();
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int confirm = JOptionPane.showConfirmDialog(this, "Confirma exclusão?", "Confirmação", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            daoHospede.excluir(hospede);
+            limparCampos();
+            resetarEstadoInicial();
+        }   
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -173,4 +306,8 @@ public class GuiHospede extends javax.swing.JFrame {
     private javax.swing.JTextField txtTelefone;
     private javax.swing.JTextField txtTxDesconto;
     // End of variables declaration//GEN-END:variables
+    private DaoHospede daoHospede=null;
+    private Hospede hospede=null;
+    private PreparaConexao prepCon=null;
+
 }

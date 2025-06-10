@@ -16,7 +16,7 @@ public class Aplic {
         Recepcionista recepcionista = new Recepcionista(123, "The Eric");
         Registro registro = new Registro(1, LocalDate.of(2025, 6, 3), recepcionista);
         
-        Hospede hospede = new Hospede("123.123.123.12", "The Thalles", registro);
+        Hospede hospede = new Hospede("123.123.123.12", "The Thalles");
 
         hospede.setTaxaDesconto(10);
         registro.reservarQuarto(hospede, quarto);

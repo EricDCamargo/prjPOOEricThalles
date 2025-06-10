@@ -5,9 +5,16 @@
  */
 package fatec.poo.view;
 
+import fatec.poo.control.DaoRecepcionista;
+import fatec.poo.control.PreparaConexao;
+import fatec.poo.model.Recepcionista;
+import fatec.poo.model.Registro;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author Thalles
+ * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class GuiRecepcionista extends javax.swing.JFrame {
 
@@ -48,6 +55,14 @@ public class GuiRecepcionista extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro Recepcionista");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Registro Funcional");
 
@@ -94,15 +109,35 @@ public class GuiRecepcionista extends javax.swing.JFrame {
 
         btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
         btnConsultar.setText("Consultar");
+        btnConsultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnConsultarActionPerformed(evt);
+            }
+        });
 
         btnInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         btnInserir.setText("Inserir");
+        btnInserir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInserirActionPerformed(evt);
+            }
+        });
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Eraser.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/exit.png"))); // NOI18N
         btnSair.setText("Sair");
@@ -182,6 +217,167 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+       prepCon = new PreparaConexao("",""); //Usuário e senha                            
+       prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
+       prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb");
+       daoRecepcionista = new DaoRecepcionista(prepCon.abrirConexao());
+       
+        if (daoRecepcionista == null) {
+            JOptionPane.showMessageDialog(this, "Erro na conexão com o banco!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
+        String entrada = txtRegistroFuncional.getText().trim();
+        if(!entrada.matches("\\d+")){
+            JOptionPane.showMessageDialog(this, "Registro Funcional inválido! Digite um valor numérico inteiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            txtRegistroFuncional.requestFocus();
+            return;
+        }
+        
+        int regFunc = Integer.parseInt(txtRegistroFuncional.getText());
+        recepcionista = daoRecepcionista.consultar(regFunc);
+        
+        if(recepcionista != null){
+            txtNome.setText(recepcionista.getNome());
+            txtEndereco.setText(recepcionista.getEndereco());
+            txtTelefone.setText(recepcionista.getTelefone());
+            switch(recepcionista.getTurno()){
+                case("M"):rdbManha.setSelected(true);
+                case("T"):rdbTarde.setSelected(true);
+                case("N"):rdbNoite.setSelected(true);
+            }
+            
+            txtRegistroFuncional.setEnabled(false);
+            txtNome.setEnabled(true);
+            txtEndereco.setEnabled(true);
+            txtTelefone.setEnabled(true);
+            rdbManha.setEnabled(true);
+            rdbTarde.setEnabled(true);
+            rdbNoite.setEnabled(true);
+            txtNome.requestFocus();
+            
+            btnConsultar.setEnabled(false);
+            btnInserir.setEnabled(false);
+            btnAlterar.setEnabled(true);
+            btnExcluir.setEnabled(true);
+        }else{
+            txtRegistroFuncional.setEnabled(false);
+            txtNome.setEnabled(true);
+            txtEndereco.setEnabled(true);
+            txtTelefone.setEnabled(true);
+            rdbManha.setEnabled(true);
+            rdbTarde.setEnabled(true);
+            rdbNoite.setEnabled(true);
+            txtNome.requestFocus();
+            
+            btnConsultar.setEnabled(false);
+            btnInserir.setEnabled(true);
+            btnAlterar.setEnabled(false);
+            btnExcluir.setEnabled(false);
+        }
+               
+    }//GEN-LAST:event_btnConsultarActionPerformed
+
+    private String getSelectedTurno() {
+        if (rdbManha.isSelected()) return "M";
+        if (rdbTarde.isSelected()) return "T";
+        if (rdbNoite.isSelected()) return "N";
+        return ""; 
+    }
+
+    
+    private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        recepcionista = new Recepcionista(Integer.parseInt(txtRegistroFuncional.getText()), txtNome.getText());
+        recepcionista.setTurno(getSelectedTurno());
+        recepcionista.setEndereco(txtEndereco.getText());
+        recepcionista.setTelefone(txtTelefone.getText());
+        
+        //rever açociação binaria
+        
+        daoRecepcionista.inserir(recepcionista);
+        
+        txtRegistroFuncional.setText(null);
+        rdbManha.setSelected(true);
+        txtNome.setText(null);
+        txtEndereco.setText(null);
+        txtTelefone.setText(null);
+        
+        txtRegistroFuncional.setEnabled(true);
+        rdbManha.setEnabled(false);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtRegistroFuncional.requestFocus();
+        
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+    }//GEN-LAST:event_btnInserirActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0) {
+
+        recepcionista.setNome(txtNome.getText());
+        recepcionista.setTurno(getSelectedTurno());
+        recepcionista.setEndereco(txtEndereco.getText());
+        recepcionista.setTelefone(txtTelefone.getText());
+       
+        // veriuficar alteração de associação binaria
+        
+        daoRecepcionista.alterar(recepcionista);
+        }
+        txtRegistroFuncional.setText(null);
+        rdbManha.setSelected(true);
+        txtNome.setText(null);
+        txtEndereco.setText(null);
+        txtTelefone.setText(null);
+        
+        txtRegistroFuncional.setEnabled(true);
+        rdbManha.setEnabled(false);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtRegistroFuncional.requestFocus();
+        
+        
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+        
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
+            daoRecepcionista.excluir(recepcionista); 
+        }
+        
+        txtRegistroFuncional.setText(null);
+        rdbManha.setSelected(true);
+        txtNome.setText(null);
+        txtEndereco.setText(null);
+        txtTelefone.setText(null);
+        
+        txtRegistroFuncional.setEnabled(true);
+        rdbManha.setEnabled(false);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtRegistroFuncional.requestFocus();
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        prepCon.fecharConexao();
+    }//GEN-LAST:event_formWindowClosed
+
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnConsultar;
@@ -202,4 +398,7 @@ public class GuiRecepcionista extends javax.swing.JFrame {
     private javax.swing.JTextField txtRegistroFuncional;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
+    private DaoRecepcionista daoRecepcionista=null;
+    private Recepcionista recepcionista=null;
+    private PreparaConexao prepCon=null;
 }

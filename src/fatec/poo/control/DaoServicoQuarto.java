@@ -86,7 +86,7 @@ public class DaoServicoQuarto {
         }
     }
      
-      public ArrayList<ServicoQuarto> consultarDepartamentos(){
+      public ArrayList<ServicoQuarto> consultarServicosQuarto(){
         ArrayList<ServicoQuarto> servicosQuarto = new ArrayList<ServicoQuarto>();
         int count = 0;
         PreparedStatement ps = null;

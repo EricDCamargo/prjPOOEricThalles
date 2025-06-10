@@ -5,7 +5,7 @@ package fatec.poo.model;
  * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class Pessoa {
-    private final String nome;
+    private String nome;
     private String endereco;
     private String telefone;
     
@@ -19,6 +19,10 @@ public class Pessoa {
     
     public void setTelefone(String telefone){
         this.telefone = telefone;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
     
     public String getNome(){
