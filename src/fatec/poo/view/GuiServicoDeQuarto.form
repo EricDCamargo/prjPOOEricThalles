@@ -108,6 +108,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCodigo">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="C&#xf3;digo" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="cbDescricao">
       <Properties>
@@ -120,12 +123,16 @@
             <StringItem index="4" value="Salgado"/>
           </StringArray>
         </Property>
+        <Property name="name" type="java.lang.String" value="Descri&#xe7;&#xe3;o" noResource="true"/>
       </Properties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JTextField" name="txtValor">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="Valor" noResource="true"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnConsultar">
       <Properties>

@@ -9,6 +9,7 @@ import fatec.poo.control.DaoQuarto;
 import fatec.poo.control.PreparaConexao;
 import fatec.poo.model.Quarto;
 import fatec.poo.utils.Helper;
+import javax.swing.ButtonModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -33,7 +34,7 @@ public class GuiQuarto extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btgrpTipo = new javax.swing.ButtonGroup();
+        btngrpTipo = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtNQuarto = new javax.swing.JTextField();
@@ -69,11 +70,11 @@ public class GuiQuarto extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo"));
 
-        btgrpTipo.add(rdbSolteiro);
+        btngrpTipo.add(rdbSolteiro);
         rdbSolteiro.setSelected(true);
         rdbSolteiro.setText("Solteiro");
 
-        btgrpTipo.add(rdbCasal);
+        btngrpTipo.add(rdbCasal);
         rdbCasal.setText("Casal");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -201,13 +202,16 @@ public class GuiQuarto extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         prepCon = new PreparaConexao("",""); //Usuário e senha                            
-       prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
-       prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb");
-       daoQuarto = new DaoQuarto(prepCon.abrirConexao());
+        prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
+        prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb");
+        daoQuarto = new DaoQuarto(prepCon.abrirConexao());
        
         if (daoQuarto == null) {
             JOptionPane.showMessageDialog(this, "Erro na conexão com o banco!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+        
+        rdbCasal.setActionCommand("C");
+        rdbSolteiro.setActionCommand("S");
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -252,9 +256,8 @@ public class GuiQuarto extends javax.swing.JFrame {
 
     
      private String getSelectedTipo() {
-        if (rdbSolteiro.isSelected()) return "S";
-        if (rdbCasal.isSelected()) return "C";
-        return ""; 
+        ButtonModel selectedModel = btngrpTipo.getSelection();
+        return selectedModel != null ? selectedModel.getActionCommand() : "";
     }
     
     private void limparCampos() {
@@ -263,7 +266,7 @@ public class GuiQuarto extends javax.swing.JFrame {
         rdbSolteiro.setSelected(true);
 
         txtNQuarto.setEnabled(true);
-        txtValorDiaria.setEnabled(false);
+        
         txtNQuarto.requestFocus();
 
         btnConsultar.setEnabled(true);
@@ -273,6 +276,7 @@ public class GuiQuarto extends javax.swing.JFrame {
     }
     
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        if(!Helper.isValidInteger(txtNQuarto))return;
         if(!Helper.isValidDouble(txtValorDiaria))return;
         quarto = new Quarto(Integer.parseInt(txtNQuarto.getText()), getSelectedTipo(), Double.parseDouble(txtValorDiaria.getText()));
         
@@ -302,12 +306,12 @@ public class GuiQuarto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup btgrpTipo;
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnInserir;
     private javax.swing.JButton btnSair;
+    private javax.swing.ButtonGroup btngrpTipo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -75,6 +75,15 @@ public class GuiHospede extends javax.swing.JFrame {
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        txtCpf.setName("CPF"); // NOI18N
+
+        txtNome.setName("Nome"); // NOI18N
+
+        txtEndereco.setName("Endereço"); // NOI18N
+
+        txtTelefone.setName("Telefone"); // NOI18N
+
+        txtTxDesconto.setName("Taxa Desconto"); // NOI18N
 
         btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
         btnConsultar.setText("Consultar");
@@ -249,13 +258,16 @@ public class GuiHospede extends javax.swing.JFrame {
     }    
     
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
-        if (Hospede.validarCPF(txtCpf.getText())) {
+        if (!Hospede.validarCPF(txtCpf.getText())) {
             JOptionPane.showMessageDialog(null, "CPF inválido");
             txtCpf.requestFocus();
             return;
         }
-        
+        if(!Helper.isCampoPreenchido(txtNome))return;
+        if(!Helper.isCampoPreenchido(txtEndereco))return;
+        if(!Helper.isCampoPreenchido(txtTelefone))return;
         if (!Helper.isValidDouble(txtTxDesconto)) return;
+        
         hospede = new Hospede(Hospede.limparCPF(txtCpf.getText()), txtNome.getText());
         hospede.setEndereco(txtEndereco.getText());
         hospede.setTelefone(txtTelefone.getText());
@@ -267,7 +279,9 @@ public class GuiHospede extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        if(!Helper.isCampoPreenchido(txtNome))return;
         if (!Helper.isValidDouble(txtTxDesconto)) return;
+        
         hospede.setNome(txtNome.getText());
         hospede.setEndereco(txtEndereco.getText());
         hospede.setTelefone(txtTelefone.getText());

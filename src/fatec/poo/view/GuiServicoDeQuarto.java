@@ -62,7 +62,12 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
 
         jLabel3.setText("Valor");
 
+        txtCodigo.setName("Código"); // NOI18N
+
         cbDescricao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Água", "Doce", "Lanche", "Refrigerante", "Salgado" }));
+        cbDescricao.setName("Descrição"); // NOI18N
+
+        txtValor.setName("Valor"); // NOI18N
 
         btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
         btnConsultar.setText("Consultar");
@@ -201,7 +206,6 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
                 cbDescricao.requestFocus();
                 btnAlterar.setEnabled(false);
                 btnExcluir.setEnabled(false);
-                JOptionPane.showMessageDialog(this, "Serviço de quarto não encontrado!", "Aviso", JOptionPane.WARNING_MESSAGE);
             }
 
         
@@ -209,6 +213,7 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
 
        
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        if (!Helper.isValidInteger(txtCodigo)) return;
         if (!Helper.isValidDouble(txtValor)) return;
         
         servicoQuarto = new ServicoQuarto(Integer.parseInt(txtCodigo.getText()), String.valueOf(cbDescricao.getSelectedItem()));

@@ -44,5 +44,15 @@ public class Helper {
         
         return true;
     }
+    //verifica se o campo esta vazio, se vazio apresenta mensagem de aviso e posiciona o foco no campo
+    public static boolean isCampoPreenchido(JTextField textField) {
+    if (textField.getText().trim().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "O campo '" + textField.getName() + "' é obrigatório!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        textField.requestFocus();
+        textField.setText(null);
+        return false;
+    }
+    return true;
+}
 
 }

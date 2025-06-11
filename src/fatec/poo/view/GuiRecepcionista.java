@@ -9,6 +9,7 @@ import fatec.poo.control.DaoRecepcionista;
 import fatec.poo.control.PreparaConexao;
 import fatec.poo.model.Recepcionista;
 import fatec.poo.utils.Helper;
+import javax.swing.ButtonModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -70,6 +71,14 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         jLabel3.setText("Endereço");
 
         jLabel4.setText("Telefone");
+
+        txtRegistroFuncional.setName("Registro Funcional"); // NOI18N
+
+        txtNome.setName("Nome"); // NOI18N
+
+        txtEndereco.setName("Endereço"); // NOI18N
+
+        txtTelefone.setName("Telefone"); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Turno"));
 
@@ -217,14 +226,18 @@ public class GuiRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       prepCon = new PreparaConexao("",""); //Usuário e senha                            
-       prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
-       prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb");
-       daoRecepcionista = new DaoRecepcionista(prepCon.abrirConexao());
-       
+        prepCon = new PreparaConexao("",""); //Usuário e senha                            
+        prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
+        prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb");
+        daoRecepcionista = new DaoRecepcionista(prepCon.abrirConexao());
+
         if (daoRecepcionista == null) {
-            JOptionPane.showMessageDialog(this, "Erro na conexão com o banco!", "Erro", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(this, "Erro na conexão com o banco!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
+       
+        rdbManha.setActionCommand("M");
+        rdbTarde.setActionCommand("T");
+        rdbNoite.setActionCommand("N");
     }//GEN-LAST:event_formWindowOpened
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
@@ -236,10 +249,16 @@ public class GuiRecepcionista extends javax.swing.JFrame {
             txtNome.setText(recepcionista.getNome());
             txtEndereco.setText(recepcionista.getEndereco());
             txtTelefone.setText(recepcionista.getTelefone());
-            switch(recepcionista.getTurno()){
-                case("M"):rdbManha.setSelected(true);
-                case("T"):rdbTarde.setSelected(true);
-                case("N"):rdbNoite.setSelected(true);
+            switch(recepcionista.getTurno()) {
+                case "M":
+                    rdbManha.setSelected(true);
+                    break;
+                case "T":
+                    rdbTarde.setSelected(true);
+                    break;
+                case "N":
+                    rdbNoite.setSelected(true);
+                    break;
             }
             
             txtRegistroFuncional.setEnabled(false);
@@ -274,10 +293,8 @@ public class GuiRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnConsultarActionPerformed
 
     private String getSelectedTurno() {
-        if (rdbManha.isSelected()) return "M";
-        if (rdbTarde.isSelected()) return "T";
-        if (rdbNoite.isSelected()) return "N";
-        return ""; 
+        ButtonModel selectedModel = btngrpTurno.getSelection();
+        return selectedModel != null ? selectedModel.getActionCommand() : "";
     }
     
     private void limparCamposRecepcionista() {
@@ -302,6 +319,12 @@ public class GuiRecepcionista extends javax.swing.JFrame {
 
     
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        if(!Helper.isValidInteger(txtRegistroFuncional))return;
+        if(!Helper.isCampoPreenchido(txtNome))return;
+        if(!Helper.isCampoPreenchido(txtEndereco))return;
+        if(!Helper.isCampoPreenchido(txtTelefone))return;
+        
+        
         recepcionista = new Recepcionista(Integer.parseInt(txtRegistroFuncional.getText()), txtNome.getText());
         recepcionista.setTurno(getSelectedTurno());
         recepcionista.setEndereco(txtEndereco.getText());
@@ -315,6 +338,10 @@ public class GuiRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        if(!Helper.isCampoPreenchido(txtNome))return;
+        if(!Helper.isCampoPreenchido(txtEndereco))return;
+        if(!Helper.isCampoPreenchido(txtTelefone))return;
+        
         if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0) {
 
         recepcionista.setNome(txtNome.getText());
