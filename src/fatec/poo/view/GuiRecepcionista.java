@@ -8,8 +8,7 @@ package fatec.poo.view;
 import fatec.poo.control.DaoRecepcionista;
 import fatec.poo.control.PreparaConexao;
 import fatec.poo.model.Recepcionista;
-import fatec.poo.model.Registro;
-import java.util.ArrayList;
+import fatec.poo.utils.Helper;
 import javax.swing.JOptionPane;
 
 /**
@@ -229,15 +228,9 @@ public class GuiRecepcionista extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-        String entrada = txtRegistroFuncional.getText().trim();
-        if(!entrada.matches("\\d+")){
-            JOptionPane.showMessageDialog(this, "Registro Funcional inválido! Digite um valor numérico inteiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
-            txtRegistroFuncional.requestFocus();
-            return;
-        }
-        
-        int regFunc = Integer.parseInt(txtRegistroFuncional.getText());
-        recepcionista = daoRecepcionista.consultar(regFunc);
+        if(!Helper.isValidInteger(txtRegistroFuncional))return;
+       
+        recepcionista = daoRecepcionista.consultar(Integer.parseInt(txtRegistroFuncional.getText()));
         
         if(recepcionista != null){
             txtNome.setText(recepcionista.getNome());
@@ -286,6 +279,26 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         if (rdbNoite.isSelected()) return "N";
         return ""; 
     }
+    
+    private void limparCamposRecepcionista() {
+        txtRegistroFuncional.setText(null);
+        txtNome.setText(null);
+        txtEndereco.setText(null);
+        txtTelefone.setText(null);
+        rdbManha.setSelected(true);
+
+        txtRegistroFuncional.setEnabled(true);
+        rdbManha.setEnabled(false);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtRegistroFuncional.requestFocus();
+
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+    }
 
     
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
@@ -298,23 +311,7 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         
         daoRecepcionista.inserir(recepcionista);
         
-        txtRegistroFuncional.setText(null);
-        rdbManha.setSelected(true);
-        txtNome.setText(null);
-        txtEndereco.setText(null);
-        txtTelefone.setText(null);
-        
-        txtRegistroFuncional.setEnabled(true);
-        rdbManha.setEnabled(false);
-        txtNome.setEnabled(false);
-        txtEndereco.setEnabled(false);
-        txtTelefone.setEnabled(false);
-        txtRegistroFuncional.requestFocus();
-        
-        btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
+        limparCamposRecepcionista();
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
@@ -329,24 +326,7 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         
         daoRecepcionista.alterar(recepcionista);
         }
-        txtRegistroFuncional.setText(null);
-        rdbManha.setSelected(true);
-        txtNome.setText(null);
-        txtEndereco.setText(null);
-        txtTelefone.setText(null);
-        
-        txtRegistroFuncional.setEnabled(true);
-        rdbManha.setEnabled(false);
-        txtNome.setEnabled(false);
-        txtEndereco.setEnabled(false);
-        txtTelefone.setEnabled(false);
-        txtRegistroFuncional.requestFocus();
-        
-        
-        btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
+        limparCamposRecepcionista();
         
     }//GEN-LAST:event_btnAlterarActionPerformed
 
@@ -354,23 +334,7 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
             daoRecepcionista.excluir(recepcionista); 
         }
-        
-        txtRegistroFuncional.setText(null);
-        rdbManha.setSelected(true);
-        txtNome.setText(null);
-        txtEndereco.setText(null);
-        txtTelefone.setText(null);
-        
-        txtRegistroFuncional.setEnabled(true);
-        rdbManha.setEnabled(false);
-        txtNome.setEnabled(false);
-        txtEndereco.setEnabled(false);
-        txtTelefone.setEnabled(false);
-        txtRegistroFuncional.requestFocus();
-        btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
+        limparCamposRecepcionista();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

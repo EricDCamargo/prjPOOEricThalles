@@ -42,6 +42,14 @@ public class Quarto {
         this.valorDiaria = valorDiaria;
     }
 
+    public void setSituacao(boolean situacao) {
+        this.situacao = situacao;
+    }
+
+    public void setTotalFaturado(double totalFaturado) {
+        this.totalFaturado = totalFaturado;
+    }
+
     public int getNumero() {
         return numero;
     }

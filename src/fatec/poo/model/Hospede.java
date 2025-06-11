@@ -18,7 +18,7 @@ public class Hospede extends Pessoa {
     }
     
     public void setTaxaDesconto(double taxaDesconto){
-        this.taxaDesconto = taxaDesconto / 100;
+        this.taxaDesconto = taxaDesconto;
     }
     
     public String getCpf(){
@@ -35,27 +35,34 @@ public class Hospede extends Pessoa {
     }
 
     
-    public static boolean validarCPF(String cpf){
-        cpf = limparCPF(cpf);
-        
-        if(cpf.length() != 11 || cpf.matches("(\\d)\\1{10}")) {
+    public static boolean validarCPF(String cpf) {
+        if (cpf == null) return false;
+
+        cpf = limparCPF(cpf.trim());
+
+        if (cpf.length() != 11 || cpf.matches("(\\d)\\1{10}")) {
             return false;
         }
-        int sum = 0, weight = 10;
-        for(int i = 0; i < 9; i++){
-            sum += (cpf.charAt(i) - '0') * weight;
+
+        try {
+            int sum = 0, weight = 10;
+            for (int i = 0; i < 9; i++) {
+                sum += (cpf.charAt(i) - '0') * weight--;
+            }
+            int firstDigit = (sum * 10) % 11;
+            if (firstDigit == 10) firstDigit = 0;
+
+            sum = 0;
+            weight = 11;
+            for (int i = 0; i < 10; i++) {
+                sum += (cpf.charAt(i) - '0') * weight--;
+            }
+            int secondDigit = (sum * 10) % 11;
+            if (secondDigit == 10) secondDigit = 0;
+
+            return firstDigit == (cpf.charAt(9) - '0') && secondDigit == (cpf.charAt(10) - '0');
+        } catch (Exception e) {
+            return false;
         }
-        int firstDigit = (sum * 10) % 11;
-        if(firstDigit == 10 )firstDigit = 0;
-        
-        sum = 0;
-        weight = 11;
-        for (int i = 0; i < 10; i++) {
-            sum += (cpf.charAt(i) - '0') * weight--;
-        }
-        int secondDigit = (sum * 10) % 11;
-        if (secondDigit == 10) secondDigit = 0;
-        
-        return firstDigit == (cpf.charAt(9) - '0') && secondDigit == (cpf.charAt(10) - '0');
-    }
+}
 }

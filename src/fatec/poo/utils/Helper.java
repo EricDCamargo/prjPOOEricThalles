@@ -14,6 +14,7 @@ import javax.swing.JTextField;
  */
 public class Helper {
     
+    //recebe o campo e valida se seu valor é real, se verdadeiro retorna true, se falso retorna mensagem de aviso
     public static boolean isValidDouble(JTextField textField) {
         String valorEntrada = textField.getText().trim();
         
@@ -22,12 +23,13 @@ public class Helper {
                 "Valor inválido! O campo '" + textField.getName() + "' deve conter um número real.", 
                 "Aviso", JOptionPane.WARNING_MESSAGE);
             textField.requestFocus();
+            textField.setText(null);
             return false;
         }
         
         return true;
     }
-    
+    //recebe o campo e valida se seu valor é inteiro, se verdadeiro retorna true, se falso retorna mensagem de aviso
     public static boolean isValidInteger(JTextField textField) {
         String valorEntrada = textField.getText().trim();
         
@@ -36,6 +38,7 @@ public class Helper {
                 "Valor inválido! O campo '" + textField.getName() + "' deve conter um número inteiro.", 
                 "Aviso", JOptionPane.WARNING_MESSAGE);
             textField.requestFocus();
+            textField.setText(null);
             return false;
         }
         

@@ -72,6 +72,7 @@ public class DaoHospede {
                 d = new Hospede (cpf, rs.getString("Nome_Hospede"));     
                 d.setEndereco(rs.getString("Endereco_Hospede"));
                 d.setTelefone(rs.getString("Telefone_Hospede"));
+                d.setTaxaDesconto(rs.getDouble("TaxaDesconto_Hospede"));
             }
         }
         catch (SQLException ex) { 
@@ -92,28 +93,4 @@ public class DaoHospede {
              System.out.println(ex.toString());   
         }
     }
-     
-      public ArrayList<Hospede> consultarHospedes(){
-        ArrayList<Hospede> hospedes = new ArrayList<Hospede>();
-        int count = 0;
-        PreparedStatement ps = null;
-        try {
-            ps = conn.prepareStatement("SELECT * from tblHospede order by Cpf_Hospede");
-                        
-            ResultSet rs = ps.executeQuery();
-           
-            while(rs.next()){
-                
-                hospedes.add(new Hospede(rs.getString("Cpf_Hospede"), rs.getString("Nome_Hospede")));
-                hospedes.get(count).setEndereco(rs.getString("Endereco_Hospede"));
-                hospedes.get(count).setTelefone(rs.getString("Telefone_Hospede"));
-                hospedes.get(count).setTaxaDesconto(rs.getDouble("TaxaDesconto_Hospede"));
-                count++;
-            }
-        }
-        catch (SQLException ex) { 
-             System.out.println(ex.toString());   
-        }        
-        return hospedes;
-     }
 }

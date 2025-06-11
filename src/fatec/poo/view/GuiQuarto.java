@@ -8,6 +8,7 @@ package fatec.poo.view;
 import fatec.poo.control.DaoQuarto;
 import fatec.poo.control.PreparaConexao;
 import fatec.poo.model.Quarto;
+import fatec.poo.utils.Helper;
 import javax.swing.JOptionPane;
 
 /**
@@ -62,6 +63,10 @@ public class GuiQuarto extends javax.swing.JFrame {
 
         jLabel2.setText("Valor Diária");
 
+        txtNQuarto.setName("Nº Quarto"); // NOI18N
+
+        txtValorDiaria.setName("Valor Diária"); // NOI18N
+
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo"));
 
         btgrpTipo.add(rdbSolteiro);
@@ -70,11 +75,6 @@ public class GuiQuarto extends javax.swing.JFrame {
 
         btgrpTipo.add(rdbCasal);
         rdbCasal.setText("Casal");
-        rdbCasal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rdbCasalActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -195,16 +195,12 @@ public class GuiQuarto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rdbCasalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbCasalActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdbCasalActionPerformed
-
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
        dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       prepCon = new PreparaConexao("",""); //Usuário e senha                            
+        prepCon = new PreparaConexao("",""); //Usuário e senha                            
        prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
        prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb");
        daoQuarto = new DaoQuarto(prepCon.abrirConexao());
@@ -219,17 +215,9 @@ public class GuiQuarto extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-      String entrada = txtNQuarto.getText().trim();
-        if(!entrada.matches("\\d+")){
-            JOptionPane.showMessageDialog(this, "Numero do quarto inválido! Digite um valor numérico inteiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
-            txtNQuarto.setText(null);
-            txtNQuarto.requestFocus();
-            return;
-        }
-        
-        int numeroQuarto = Integer.parseInt(entrada);
-        quarto = daoQuarto.consultar(numeroQuarto);
-        
+        if(!Helper.isValidInteger(txtNQuarto))return;
+
+        quarto = daoQuarto.consultar(Integer.parseInt(txtNQuarto.getText()));
         
         if(quarto != null){
             txtValorDiaria.setText(String.valueOf(quarto.getValorDiaria()));
@@ -244,7 +232,6 @@ public class GuiQuarto extends javax.swing.JFrame {
             
             txtNQuarto.setEnabled(false);
             txtValorDiaria.setEnabled(true);
-            
             txtValorDiaria.requestFocus();
             
             btnConsultar.setEnabled(false);
@@ -254,7 +241,6 @@ public class GuiQuarto extends javax.swing.JFrame {
         }else{
             txtNQuarto.setEnabled(false);
             txtValorDiaria.setEnabled(true);
-            
             txtValorDiaria.requestFocus();
             
             btnConsultar.setEnabled(false);
@@ -268,75 +254,51 @@ public class GuiQuarto extends javax.swing.JFrame {
      private String getSelectedTipo() {
         if (rdbSolteiro.isSelected()) return "S";
         if (rdbCasal.isSelected()) return "C";
-        
-        System.out.print(rdbCasal.getSelectedObjects());
         return ""; 
     }
     
+    private void limparCampos() {
+        txtNQuarto.setText(null);
+        txtValorDiaria.setText(null);
+        rdbSolteiro.setSelected(true);
+
+        txtNQuarto.setEnabled(true);
+        txtValorDiaria.setEnabled(false);
+        txtNQuarto.requestFocus();
+
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+    }
     
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        if(!Helper.isValidDouble(txtValorDiaria))return;
         quarto = new Quarto(Integer.parseInt(txtNQuarto.getText()), getSelectedTipo(), Double.parseDouble(txtValorDiaria.getText()));
         
         //rever açociação binaria
         
         daoQuarto.inserir(quarto);
-        
-        txtNQuarto.setText(null);
-        txtValorDiaria.setText(null);
-        rdbSolteiro.setSelected(true);
-        
-        txtNQuarto.setEnabled(true);
-        txtValorDiaria.setEnabled(false);
-        txtNQuarto.requestFocus();
-        
-        
-        btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
+        limparCampos();
         
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        if (!Helper.isValidDouble(txtValorDiaria)) return;
         if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0) {
-            
             quarto.setValorDiaria(Double.parseDouble(txtValorDiaria.getText()));
             quarto.setTipo(getSelectedTipo());
             
             daoQuarto.alterar(quarto);
         }
-        
-        
-        txtNQuarto.setText(null);
-        txtValorDiaria.setText(null);
-        rdbSolteiro.setSelected(true);
-        
-        txtNQuarto.setEnabled(true);
-        txtNQuarto.requestFocus();    
-        
-        btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
+        limparCampos();
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         if (JOptionPane.showConfirmDialog(null, "Confirma Exclusão?") == 0){
             daoQuarto.excluir(quarto); 
         }
-        
-        txtNQuarto.setText(null);
-        txtValorDiaria.setText(null);
-        rdbSolteiro.setSelected(true);
-        
-        txtNQuarto.setEnabled(true);
-        txtValorDiaria.setEnabled(false);
-        txtNQuarto.requestFocus(); 
-        
-        btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
+        limparCampos();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

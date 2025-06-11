@@ -58,7 +58,7 @@ public class Registro {
      public double liberarQuarto() {
         int dias = dataEntrada.until(dataSaida).getDays();
         this.valorHospedagem = quarto.liberar(dias);
-        double valorDesconto = valorHospedagem * hospede.getTaxaDesconto();
+        double valorDesconto = valorHospedagem * (hospede.getTaxaDesconto() / 100);
         
         double totalServicos = 0;
         for (ServicoQuarto servico : servicosQuarto) {

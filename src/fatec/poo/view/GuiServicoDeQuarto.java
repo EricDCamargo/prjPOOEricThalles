@@ -6,11 +6,10 @@
 package fatec.poo.view;
 
 import fatec.poo.control.DaoServicoQuarto;
+import fatec.poo.control.PreparaConexao;
 import fatec.poo.model.ServicoQuarto;
-import fatec.poo.utils.ConexaoBanco;
 import javax.swing.JOptionPane;
 import fatec.poo.utils.Helper;
-import java.sql.Connection;
 
 /**
  *
@@ -164,12 +163,15 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
 
    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        Connection conexao = ConexaoBanco.getInstancia().getConexao();
-        if (conexao == null) { 
+        prepCon = new PreparaConexao("",""); //Usuário e senha                            
+       prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
+       prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb" );
+       daoServicoQuarto = new DaoServicoQuarto(prepCon.abrirConexao());
+       
+        if (daoServicoQuarto == null) {
             JOptionPane.showMessageDialog(this, "Erro na conexão com o banco!", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        daoServicoQuarto = new DaoServicoQuarto(conexao);
     }//GEN-LAST:event_formWindowOpened
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
@@ -244,7 +246,7 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        ConexaoBanco.getInstancia().fecharConexao();
+        prepCon.fecharConexao();
     }//GEN-LAST:event_formWindowClosed
 
     private void limparCampos() {
@@ -278,6 +280,6 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private DaoServicoQuarto daoServicoQuarto=null;
     private ServicoQuarto servicoQuarto=null;
-    
+    private PreparaConexao prepCon=null;
     
 }

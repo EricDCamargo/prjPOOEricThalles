@@ -70,7 +70,9 @@ public class DaoQuarto {
             ResultSet rs = ps.executeQuery();
            
             if (rs.next()) {
-                d = new Quarto (numeroQuarto, rs.getString("Tipo_Quarto"), rs.getDouble("ValorDiaria_Quarto"));           
+                d = new Quarto (numeroQuarto, rs.getString("Tipo_Quarto"), rs.getDouble("ValorDiaria_Quarto")); 
+                d.setTotalFaturado(rs.getDouble("TotalFaturado_Quarto"));
+                d.setSituacao(rs.getBoolean("Situacao_Quarto"));
             }
         }
         catch (SQLException ex) { 
@@ -91,27 +93,4 @@ public class DaoQuarto {
              System.out.println(ex.toString());   
         }
     }
-     
-      public ArrayList<Quarto> consultarServicosQuarto(){
-        ArrayList<Quarto> servicosQuarto = new ArrayList<Quarto>();
-        int count = 0;
-        PreparedStatement ps = null;
-        try {
-            ps = conn.prepareStatement("SELECT * from tblQuarto order by Numero_Quarto");
-                        
-            ResultSet rs = ps.executeQuery();
-           
-            while(rs.next()){
-                
-                servicosQuarto.add(new Quarto(rs.getInt("Numero_Quarto"),
-                                              rs.getString("Tipo_Quarto"), 
-                                              rs.getDouble("ValorDiaria_Quarto"))); 
-                count++;
-            }
-        }
-        catch (SQLException ex) { 
-             System.out.println(ex.toString());   
-        }        
-        return servicosQuarto;
-     }
 }

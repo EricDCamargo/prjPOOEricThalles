@@ -8,6 +8,7 @@ package fatec.poo.view;
 import fatec.poo.control.DaoHospede;
 import fatec.poo.control.PreparaConexao;
 import fatec.poo.model.Hospede;
+import fatec.poo.utils.Helper;
 import javax.swing.JOptionPane;
 
 /**
@@ -184,32 +185,12 @@ public class GuiHospede extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    private void limparCampos() {
-        txtCpf.setText("");
-        txtNome.setText("");
-        txtEndereco.setText("");
-        txtTelefone.setText("");
-        txtTxDesconto.setText("");
-    }
-
-    private void resetarEstadoInicial() {
-        txtCpf.setEnabled(true);
-        txtCpf.requestFocus();
-        btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
-    }
-
-    
-    
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       prepCon = new PreparaConexao("",""); //Usuário e senha                            
+        prepCon = new PreparaConexao("",""); //Usuário e senha                            
        prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
        prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb");
        
@@ -217,7 +198,6 @@ public class GuiHospede extends javax.swing.JFrame {
        if (daoHospede == null) {
             JOptionPane.showMessageDialog(this, "Erro na conexão com o banco!", "Erro", JOptionPane.ERROR_MESSAGE);
        }
-       
     }//GEN-LAST:event_formWindowOpened
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -225,8 +205,12 @@ public class GuiHospede extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-
-        hospede = daoHospede.consultar(hospede.limparCPF(txtCpf.getText()));
+        if (!Hospede.validarCPF(txtCpf.getText())) {
+            JOptionPane.showMessageDialog(null, "CPF inválido");
+            txtCpf.requestFocus();
+            return;
+        }
+        hospede = daoHospede.consultar(Hospede.limparCPF(txtCpf.getText()));
 
         if (hospede == null) {
             txtCpf.setEnabled(false);
@@ -249,13 +233,30 @@ public class GuiHospede extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnConsultarActionPerformed
 
+    private void limparCampos() {
+        txtCpf.setText(null);
+        txtNome.setText(null);
+        txtEndereco.setText(null);
+        txtTelefone.setText(null);
+        txtTxDesconto.setText(null);
+        
+        txtCpf.setEnabled(true);
+        txtCpf.requestFocus();
+        btnConsultar.setEnabled(true);
+        btnInserir.setEnabled(false);
+        btnAlterar.setEnabled(false);
+        btnExcluir.setEnabled(false);
+    }    
+    
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
-         if (Hospede.validarCPF(txtCpf.getText())) {
+        if (Hospede.validarCPF(txtCpf.getText())) {
             JOptionPane.showMessageDialog(null, "CPF inválido");
             txtCpf.requestFocus();
             return;
         }
-        hospede = new Hospede(hospede.limparCPF(txtCpf.getText()), txtNome.getText());
+        
+        if (!Helper.isValidDouble(txtTxDesconto)) return;
+        hospede = new Hospede(Hospede.limparCPF(txtCpf.getText()), txtNome.getText());
         hospede.setEndereco(txtEndereco.getText());
         hospede.setTelefone(txtTelefone.getText());
         hospede.setTaxaDesconto(Double.parseDouble(txtTxDesconto.getText()));
@@ -263,10 +264,10 @@ public class GuiHospede extends javax.swing.JFrame {
         daoHospede.inserir(hospede);
 
         limparCampos();
-        resetarEstadoInicial();
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        if (!Helper.isValidDouble(txtTxDesconto)) return;
         hospede.setNome(txtNome.getText());
         hospede.setEndereco(txtEndereco.getText());
         hospede.setTelefone(txtTelefone.getText());
@@ -275,7 +276,6 @@ public class GuiHospede extends javax.swing.JFrame {
         daoHospede.alterar(hospede);
 
         limparCampos();
-        resetarEstadoInicial();
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
@@ -284,7 +284,6 @@ public class GuiHospede extends javax.swing.JFrame {
         if (confirm == JOptionPane.YES_OPTION) {
             daoHospede.excluir(hospede);
             limparCampos();
-            resetarEstadoInicial();
         }   
     }//GEN-LAST:event_btnExcluirActionPerformed
 
