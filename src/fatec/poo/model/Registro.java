@@ -7,14 +7,14 @@ import java.util.ArrayList;
  * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class Registro {
-    private final int codigo;
-    private final LocalDate dataEntrada;
+    private int codigo;
+    private LocalDate dataEntrada;
     private LocalDate dataSaida;
     private double valorHospedagem;
-    private final Recepcionista recepcionista;
+    private Recepcionista recepcionista;
     private Hospede hospede;
     private Quarto quarto;
-    private final ArrayList<ServicoQuarto> servicosQuarto; 
+    private ArrayList<ServicoQuarto> servicosQuarto; 
     
 
     public Registro(int codigo, LocalDate dataEntrada, Recepcionista recepcionista){
@@ -53,6 +53,7 @@ public class Registro {
         this.hospede = hospede;
         this.quarto = quarto;
         quarto.reservar();
+        hospede.addRegistro(this);
     }
     
      public double liberarQuarto() {
@@ -62,10 +63,7 @@ public class Registro {
         
         double totalServicos = 0;
         for (ServicoQuarto servico : servicosQuarto) {
-            if (servico.getValor() <= 0) {
-                throw new IllegalArgumentException("O valor do serviço '" + servico.getDescricao() + "' não foi definido corretamente.");
-            }
-        totalServicos += servico.getValor();
+            totalServicos += servico.getValor();
         }
 
         return (valorHospedagem - valorDesconto) + totalServicos;

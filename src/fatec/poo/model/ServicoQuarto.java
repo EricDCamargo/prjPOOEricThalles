@@ -5,7 +5,7 @@ package fatec.poo.model;
  * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class ServicoQuarto {
-    private final int codigo;
+    private int codigo;
     private String descricao;
     private double valor;
     

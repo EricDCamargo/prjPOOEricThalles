@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * @author Eric Camargo e Thalles Santana - Fatec Itu (2025)
  */
 public class Hospede extends Pessoa {
-    private final String cpf;
+    private String cpf;
     private double taxaDesconto;
     private ArrayList<Registro> registros; 
     
@@ -17,6 +17,10 @@ public class Hospede extends Pessoa {
         this.registros = new ArrayList<>();
     }
     
+    public void addRegistro(Registro registro) {
+        registros.add(registro);
+    }
+
     public void setTaxaDesconto(double taxaDesconto){
         this.taxaDesconto = taxaDesconto;
     }
