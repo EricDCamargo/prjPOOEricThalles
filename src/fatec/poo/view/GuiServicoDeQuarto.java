@@ -6,9 +6,11 @@
 package fatec.poo.view;
 
 import fatec.poo.control.DaoServicoQuarto;
-import fatec.poo.control.PreparaConexao;
 import fatec.poo.model.ServicoQuarto;
+import fatec.poo.utils.ConexaoBanco;
 import javax.swing.JOptionPane;
+import fatec.poo.utils.Helper;
+import java.sql.Connection;
 
 /**
  *
@@ -47,6 +49,9 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Cadastro Serviço de Quarto");
         addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
             }
@@ -159,25 +164,18 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
 
    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       prepCon = new PreparaConexao("",""); //Usuário e senha                            
-       prepCon.setDriver("net.ucanaccess.jdbc.UcanaccessDriver");
-       prepCon.setConnectionString("jdbc:ucanaccess://C:\\Users\\ericd\\Documents\\Projects\\Fatec\\POO\\Trabalhos\\prjPOOEricThalles\\src\\fatec\\poo\\basededados\\prjPOOBD.accdb" );
-       daoServicoQuarto = new DaoServicoQuarto(prepCon.abrirConexao());
-       
-        if (daoServicoQuarto == null) {
+        Connection conexao = ConexaoBanco.getInstancia().getConexao();
+        if (conexao == null) { 
             JOptionPane.showMessageDialog(this, "Erro na conexão com o banco!", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        daoServicoQuarto = new DaoServicoQuarto(conexao);
     }//GEN-LAST:event_formWindowOpened
 
     private void btnConsultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultarActionPerformed
-            String entrada = txtCodigo.getText().trim();
-            if (!entrada.matches("\\d+")) { 
-                JOptionPane.showMessageDialog(this, "Número de Quarto inválido! Digite um valor numérico inteiro.", "Aviso", JOptionPane.WARNING_MESSAGE);
-                txtCodigo.requestFocus();
-                return; 
-            }
+            if (!Helper.isValidInteger(txtCodigo)) return;
 
+            
             int numeroQuarto = Integer.parseInt(txtCodigo.getText());
             servicoQuarto = daoServicoQuarto.consultar(numeroQuarto);
             
@@ -207,45 +205,30 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnConsultarActionPerformed
 
+       
     private void btnInserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInserirActionPerformed
+        if (!Helper.isValidDouble(txtValor)) return;
+        
         servicoQuarto = new ServicoQuarto(Integer.parseInt(txtCodigo.getText()), String.valueOf(cbDescricao.getSelectedItem()));
         servicoQuarto.setValor(Double.parseDouble(txtValor.getText()));
         
         //verificar estabelecimento de associação binaria
         daoServicoQuarto.inserir(servicoQuarto);
         
-        txtValor.setText(null);
-        cbDescricao.setSelectedIndex(0);
-        txtCodigo.setEnabled(true);
-        txtValor.setEnabled(false);
-        cbDescricao.setEnabled(false);
-      
-        txtCodigo.requestFocus();
-        btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
+        limparCampos();
     }//GEN-LAST:event_btnInserirActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        if (!Helper.isValidDouble(txtValor)) return;
+
         if (JOptionPane.showConfirmDialog(null, "Confirma Alteração?")== 0) {
             servicoQuarto.setValor(Double.parseDouble(txtValor.getText()));
             servicoQuarto.setDescricao(String.valueOf(cbDescricao.getSelectedItem()));
+            
+            daoServicoQuarto.alterar(servicoQuarto); 
         }
         
-        daoServicoQuarto.alterar(servicoQuarto);
-        
-        txtValor.setText(null);
-        cbDescricao.setSelectedIndex(0);
-        txtCodigo.setEnabled(true);
-        txtValor.setEnabled(false);
-        cbDescricao.setEnabled(false);
-        txtCodigo.requestFocus();
-        
-        btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
+        limparCampos();
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
@@ -253,23 +236,33 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
            daoServicoQuarto.excluir(servicoQuarto);
            
        }
-        txtValor.setText(null);
-        cbDescricao.setSelectedIndex(0);
-        txtCodigo.setEnabled(true);
-        txtValor.setEnabled(false);
-        cbDescricao.setEnabled(false);
-        txtCodigo.requestFocus();
-        
-        btnConsultar.setEnabled(true);
-        btnInserir.setEnabled(false);
-        btnAlterar.setEnabled(false);
-        btnExcluir.setEnabled(false);
+        limparCampos();
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        ConexaoBanco.getInstancia().fecharConexao();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void limparCampos() {
+    txtCodigo.setText(null);
+    txtValor.setText(null);
+    cbDescricao.setSelectedIndex(0);
+    
+    txtCodigo.setEnabled(true);
+    txtValor.setEnabled(false);
+    cbDescricao.setEnabled(false);
+    txtCodigo.requestFocus();
+
+    btnConsultar.setEnabled(true);
+    btnInserir.setEnabled(false);
+    btnAlterar.setEnabled(false);
+    btnExcluir.setEnabled(false);
+}
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnConsultar;
@@ -285,7 +278,6 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     private DaoServicoQuarto daoServicoQuarto=null;
     private ServicoQuarto servicoQuarto=null;
-    private PreparaConexao prepCon=null;
     
     
 }
