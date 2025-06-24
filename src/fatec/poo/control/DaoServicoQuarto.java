@@ -86,6 +86,30 @@ public class DaoServicoQuarto {
         }
     }
      
+     public ArrayList<ServicoQuarto> consultarPorRegistro(int codigoRegistro) {
+        ArrayList<ServicoQuarto> servicos = new ArrayList<>();
+        PreparedStatement ps = null;
+
+        try {
+            ps = conn.prepareStatement("SELECT CodigoServQuarto_LS FROM tblListaServico WHERE CodigoRegistro_LS = ?");
+            ps.setInt(1, codigoRegistro);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                int codServico = rs.getInt("CodigoServQuarto_LS");
+                ServicoQuarto servico = consultar(codServico); 
+                if (servico != null) {
+                    servicos.add(servico);
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Erro ao consultar serviços do registro: " + ex.toString());
+        }
+
+        return servicos;
+    }
+
+     
       public ArrayList<ServicoQuarto> consultarServicosQuarto(){
         ArrayList<ServicoQuarto> servicosQuarto = new ArrayList<ServicoQuarto>();
         int count = 0;

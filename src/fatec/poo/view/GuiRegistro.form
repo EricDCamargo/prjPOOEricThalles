@@ -39,13 +39,17 @@
               </Group>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="txtDataSaida" alignment="0" pref="90" max="32767" attributes="0"/>
+                      <Component id="txtDataEntrada" alignment="0" max="32767" attributes="0"/>
+                  </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtCodigo" pref="168" max="32767" attributes="0"/>
-                          <Component id="txtRegistroFuncional" max="32767" attributes="0"/>
-                          <Component id="txtNQjuarto" max="32767" attributes="0"/>
-                          <Component id="txtValorHospedagem" max="32767" attributes="0"/>
-                          <Component id="txtCpfHospede" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="lblValorHospedagem" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtCodigo" alignment="0" pref="168" max="32767" attributes="0"/>
+                          <Component id="txtRegistroFuncional" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtNQjuarto" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtCpfHospede" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
@@ -64,19 +68,15 @@
                               <Component id="btnSair" min="-2" pref="107" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Group type="102" attributes="0">
+                              <Component id="lblNomeRecepcionista" alignment="0" max="32767" attributes="0"/>
+                              <Component id="lblNomeHospede" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
                                   <Component id="btnConsultarSituacaoQuarto" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="txtSituacaoQuarto" pref="257" max="32767" attributes="0"/>
+                                  <Component id="lblSituacaoQuarto" min="-2" pref="280" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="txtNomeRecepcionista" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtNomeHospede" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                  </Group>
-                  <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="txtDataSaida" alignment="0" pref="90" max="32767" attributes="0"/>
-                      <Component id="txtDataEntrada" alignment="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="26" max="32767" attributes="0"/>
@@ -93,26 +93,34 @@
                   <Component id="btnConsultar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtRegistroFuncional" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnConsultarRecepcionista" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtNomeRecepcionista" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtRegistroFuncional" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnConsultarRecepcionista" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtCpfHospede" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnConsultarHospede" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="lblNomeHospede" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="lblNomeRecepcionista" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtCpfHospede" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnConsultarHospede" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtNomeHospede" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtNQjuarto" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnConsultarSituacaoQuarto" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtSituacaoQuarto" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtNQjuarto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnConsultarSituacaoQuarto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="lblSituacaoQuarto" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
@@ -124,10 +132,10 @@
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtDataSaida" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtValorHospedagem" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblValorHospedagem" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -189,13 +197,13 @@
     </Component>
     <Component class="javax.swing.JTextField" name="txtCodigo">
       <Properties>
-        <Property name="name" type="java.lang.String" value="txtCodigo" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="Codigo" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtRegistroFuncional">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
-        <Property name="name" type="java.lang.String" value="txtRegistroFuncional" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="Registro Funcional" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtCpfHospede">
@@ -204,13 +212,13 @@
           <Format format="###.###.###-##" subtype="-1" type="5"/>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
-        <Property name="name" type="java.lang.String" value="txtCpfHospede" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="Cpf Hospede" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtNQjuarto">
       <Properties>
         <Property name="enabled" type="boolean" value="false"/>
-        <Property name="name" type="java.lang.String" value="txtNQjuarto" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="N&#xba; Quarto" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtDataEntrada">
@@ -219,7 +227,7 @@
           <Format format="##/##/####" subtype="-1" type="5"/>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
-        <Property name="name" type="java.lang.String" value="txtDataEntrada" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="Data Entrada" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JFormattedTextField" name="txtDataSaida">
@@ -228,40 +236,7 @@
           <Format format="##/##/####" subtype="-1" type="5"/>
         </Property>
         <Property name="enabled" type="boolean" value="false"/>
-        <Property name="name" type="java.lang.String" value="txtDataSaida" noResource="true"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtValorHospedagem">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-            <BevelBorder bevelType="1"/>
-          </Border>
-        </Property>
-        <Property name="enabled" type="boolean" value="false"/>
-        <Property name="name" type="java.lang.String" value="txtValorHospedagem" noResource="true"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtNomeRecepcionista">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-            <BevelBorder bevelType="1"/>
-          </Border>
-        </Property>
-        <Property name="enabled" type="boolean" value="false"/>
-        <Property name="name" type="java.lang.String" value="txtNomeRecepcionista" noResource="true"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtNomeHospede">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-            <BevelBorder bevelType="1"/>
-          </Border>
-        </Property>
-        <Property name="enabled" type="boolean" value="false"/>
-        <Property name="name" type="java.lang.String" value="txtNomeHospede" noResource="true"/>
+        <Property name="name" type="java.lang.String" value="Data Saida" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnConsultar">
@@ -278,20 +253,32 @@
     <Component class="javax.swing.JButton" name="btnConsultarRecepcionista">
       <Properties>
         <Property name="text" type="java.lang.String" value="..."/>
+        <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="btnConsultarRecepcionista" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultarRecepcionistaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnConsultarHospede">
       <Properties>
         <Property name="text" type="java.lang.String" value="..."/>
+        <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="btnConsultarHospede" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultarHospedeActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnConsultarSituacaoQuarto">
       <Properties>
         <Property name="text" type="java.lang.String" value="..."/>
+        <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="btnConsultarSituacaoQuarto" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnConsultarSituacaoQuartoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnReservar">
       <Properties>
@@ -302,6 +289,9 @@
         <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="btnReservar" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReservarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnLiberar">
       <Properties>
@@ -312,6 +302,9 @@
         <Property name="enabled" type="boolean" value="false"/>
         <Property name="name" type="java.lang.String" value="btnLiberar" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLiberarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnSair">
       <Properties>
@@ -321,16 +314,56 @@
         <Property name="text" type="java.lang.String" value="Sair"/>
         <Property name="name" type="java.lang.String" value="btnSair" noResource="true"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSairActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtSituacaoQuarto">
+    <Component class="javax.swing.JLabel" name="lblNomeHospede">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-            <BevelBorder bevelType="1"/>
+            <BevelBorder/>
           </Border>
         </Property>
-        <Property name="enabled" type="boolean" value="false"/>
-        <Property name="name" type="java.lang.String" value="txtSituacaoQuarto" noResource="true"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[6, 20]"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblNomeRecepcionista">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+            <BevelBorder/>
+          </Border>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[6, 20]"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblSituacaoQuarto">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+            <BevelBorder/>
+          </Border>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[6, 20]"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lblValorHospedagem">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+            <BevelBorder/>
+          </Border>
+        </Property>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[6, 20]"/>
+        </Property>
       </Properties>
     </Component>
   </SubComponents>

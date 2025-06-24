@@ -32,6 +32,26 @@ public class Registro {
     public void setHospede(Hospede hospede) {
         this.hospede = hospede;
     }
+    
+    public void setQuarto(Quarto quarto) {
+        this.quarto = quarto;
+    }
+    
+    public void setValorHospedagem(double valorHospedagem) {
+        this.valorHospedagem = valorHospedagem;
+    }
+
+    public Recepcionista getRecepcionista() {
+        return recepcionista;
+    }
+
+    public Hospede getHospede() {
+        return hospede;
+    }
+
+    public Quarto getQuarto() {
+        return quarto;
+    }
 
     public int getCodigo() {
         return codigo;
@@ -48,6 +68,7 @@ public class Registro {
     public double getValorHospedagem() {
         return valorHospedagem;
     }
+    
     
     public void reservarQuarto(Hospede hospede, Quarto quarto){
         this.hospede = hospede;
