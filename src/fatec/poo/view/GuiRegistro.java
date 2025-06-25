@@ -15,8 +15,8 @@ import fatec.poo.model.Quarto;
 import fatec.poo.model.Recepcionista;
 import fatec.poo.model.Registro;
 import fatec.poo.utils.Helper;
-import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 
 /**
@@ -68,6 +68,7 @@ public class GuiRegistro extends javax.swing.JFrame {
         lblValorHospedagem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Registros");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -337,7 +338,11 @@ public class GuiRegistro extends javax.swing.JFrame {
          registro = daoRegistro.consultar(codigoRegistro);
         
          if (registro != null) {
-            txtDataEntrada.setText(registro.getDataEntrada().toString());
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            txtDataEntrada.setText(registro.getDataEntrada().format(dtf));
+            if(registro.getDataSaida() != null){
+                txtDataSaida.setText(registro.getDataSaida().format(dtf));
+            }
             
             txtCpfHospede.setText(registro.getHospede().getCpf());
             lblNomeHospede.setText(registro.getHospede().getNome());
@@ -483,7 +488,7 @@ public class GuiRegistro extends javax.swing.JFrame {
         //reserva o quarto que foi selecionado
         quarto.reservar();
         
-        //atualiza o quarto reservado no banco
+        //atualiza o quarto reservado no banco de dados
         DaoQuarto daoQuarto = new DaoQuarto(prepCon.abrirConexao());
         daoQuarto.alterar(quarto);
         
@@ -527,6 +532,12 @@ public class GuiRegistro extends javax.swing.JFrame {
         }
         
         LocalDate dataSaida = LocalDate.parse(dataStr);
+        
+        if (dataSaida.isBefore(registro.getDataEntrada())) {
+            JOptionPane.showMessageDialog(this, "A data de saída não pode ser anterior à data de entrada!", "Data inválida", JOptionPane.ERROR_MESSAGE);
+            txtDataSaida.requestFocus();
+            return;
+        }
         registro.setDataSaida(dataSaida);
 
         double valor = registro.liberarQuarto();

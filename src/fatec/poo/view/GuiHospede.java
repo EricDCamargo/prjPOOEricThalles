@@ -77,12 +77,16 @@ public class GuiHospede extends javax.swing.JFrame {
         }
         txtCpf.setName("CPF"); // NOI18N
 
+        txtNome.setEnabled(false);
         txtNome.setName("Nome"); // NOI18N
 
+        txtEndereco.setEnabled(false);
         txtEndereco.setName("Endereço"); // NOI18N
 
+        txtTelefone.setEnabled(false);
         txtTelefone.setName("Telefone"); // NOI18N
 
+        txtTxDesconto.setEnabled(false);
         txtTxDesconto.setName("Taxa Desconto"); // NOI18N
 
         btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
@@ -95,6 +99,7 @@ public class GuiHospede extends javax.swing.JFrame {
 
         btnInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         btnInserir.setText("Inserir");
+        btnInserir.setEnabled(false);
         btnInserir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInserirActionPerformed(evt);
@@ -103,6 +108,7 @@ public class GuiHospede extends javax.swing.JFrame {
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.setEnabled(false);
         btnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlterarActionPerformed(evt);
@@ -111,6 +117,7 @@ public class GuiHospede extends javax.swing.JFrame {
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Eraser.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.setEnabled(false);
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -223,18 +230,34 @@ public class GuiHospede extends javax.swing.JFrame {
 
         if (hospede == null) {
             txtCpf.setEnabled(false);
+            btnConsultar.setEnabled(false);
+            btnInserir.setEnabled(true);
+            btnAlterar.setEnabled(false);
+            btnExcluir.setEnabled(false); 
+            
+            txtNome.setEnabled(true);
+            txtEndereco.setEnabled(true);
+            txtTelefone.setEnabled(true);
+            txtTxDesconto.setEnabled(true);
             txtNome.requestFocus();
+            
             btnConsultar.setEnabled(false);
             btnInserir.setEnabled(true);
             btnAlterar.setEnabled(false);
             btnExcluir.setEnabled(false);
         } else {
+            
+            txtCpf.setEnabled(false);
+            txtNome.setEnabled(true);
+            txtEndereco.setEnabled(true);
+            txtTelefone.setEnabled(true);
+            txtTxDesconto.setEnabled(true);
             txtNome.setText(hospede.getNome());
             txtEndereco.setText(hospede.getEndereco());
             txtTelefone.setText(hospede.getTelefone());
             txtTxDesconto.setText(String.valueOf(hospede.getTaxaDesconto()));
-        
-            txtCpf.setEnabled(false);
+            
+           
             btnConsultar.setEnabled(false);
             btnInserir.setEnabled(false);
             btnAlterar.setEnabled(true);
@@ -250,6 +273,11 @@ public class GuiHospede extends javax.swing.JFrame {
         txtTxDesconto.setText(null);
         
         txtCpf.setEnabled(true);
+        txtNome.setEnabled(false);
+        txtEndereco.setEnabled(false);
+        txtTelefone.setEnabled(false);
+        txtTxDesconto.setEnabled(false);
+        
         txtCpf.requestFocus();
         btnConsultar.setEnabled(true);
         btnInserir.setEnabled(false);

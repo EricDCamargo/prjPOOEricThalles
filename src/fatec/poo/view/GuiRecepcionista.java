@@ -74,10 +74,13 @@ public class GuiRecepcionista extends javax.swing.JFrame {
 
         txtRegistroFuncional.setName("Registro Funcional"); // NOI18N
 
+        txtNome.setEnabled(false);
         txtNome.setName("Nome"); // NOI18N
 
+        txtEndereco.setEnabled(false);
         txtEndereco.setName("Endereço"); // NOI18N
 
+        txtTelefone.setEnabled(false);
         txtTelefone.setName("Telefone"); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Turno"));
@@ -85,12 +88,15 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         btngrpTurno.add(rdbManha);
         rdbManha.setSelected(true);
         rdbManha.setText("Manhã");
+        rdbManha.setEnabled(false);
 
         btngrpTurno.add(rdbTarde);
         rdbTarde.setText("Tarde");
+        rdbTarde.setEnabled(false);
 
         btngrpTurno.add(rdbNoite);
         rdbNoite.setText("Noite");
+        rdbNoite.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -125,6 +131,7 @@ public class GuiRecepcionista extends javax.swing.JFrame {
 
         btnInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         btnInserir.setText("Inserir");
+        btnInserir.setEnabled(false);
         btnInserir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInserirActionPerformed(evt);
@@ -133,6 +140,7 @@ public class GuiRecepcionista extends javax.swing.JFrame {
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.setEnabled(false);
         btnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlterarActionPerformed(evt);
@@ -141,6 +149,7 @@ public class GuiRecepcionista extends javax.swing.JFrame {
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Eraser.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.setEnabled(false);
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -245,10 +254,20 @@ public class GuiRecepcionista extends javax.swing.JFrame {
        
         recepcionista = daoRecepcionista.consultar(Integer.parseInt(txtRegistroFuncional.getText()));
         
+        txtRegistroFuncional.setEnabled(false);
+        txtNome.setEnabled(true);
+        txtEndereco.setEnabled(true);
+        txtTelefone.setEnabled(true);
+        rdbManha.setEnabled(true);
+        rdbTarde.setEnabled(true);
+        rdbNoite.setEnabled(true);
+        txtNome.requestFocus();
+        
         if(recepcionista != null){
             txtNome.setText(recepcionista.getNome());
             txtEndereco.setText(recepcionista.getEndereco());
             txtTelefone.setText(recepcionista.getTelefone());
+            
             switch(recepcionista.getTurno()) {
                 case "M":
                     rdbManha.setSelected(true);
@@ -261,29 +280,11 @@ public class GuiRecepcionista extends javax.swing.JFrame {
                     break;
             }
             
-            txtRegistroFuncional.setEnabled(false);
-            txtNome.setEnabled(true);
-            txtEndereco.setEnabled(true);
-            txtTelefone.setEnabled(true);
-            rdbManha.setEnabled(true);
-            rdbTarde.setEnabled(true);
-            rdbNoite.setEnabled(true);
-            txtNome.requestFocus();
-            
             btnConsultar.setEnabled(false);
             btnInserir.setEnabled(false);
             btnAlterar.setEnabled(true);
             btnExcluir.setEnabled(true);
-        }else{
-            txtRegistroFuncional.setEnabled(false);
-            txtNome.setEnabled(true);
-            txtEndereco.setEnabled(true);
-            txtTelefone.setEnabled(true);
-            rdbManha.setEnabled(true);
-            rdbTarde.setEnabled(true);
-            rdbNoite.setEnabled(true);
-            txtNome.requestFocus();
-            
+        }else{  
             btnConsultar.setEnabled(false);
             btnInserir.setEnabled(true);
             btnAlterar.setEnabled(false);
@@ -305,10 +306,12 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         rdbManha.setSelected(true);
 
         txtRegistroFuncional.setEnabled(true);
-        rdbManha.setEnabled(false);
         txtNome.setEnabled(false);
         txtEndereco.setEnabled(false);
         txtTelefone.setEnabled(false);
+        rdbManha.setEnabled(false);
+        rdbTarde.setEnabled(false);
+        rdbNoite.setEnabled(false);
         txtRegistroFuncional.requestFocus();
 
         btnConsultar.setEnabled(true);
@@ -333,7 +336,7 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         //rever açociação binaria
         
         daoRecepcionista.inserir(recepcionista);
-        
+        JOptionPane.showMessageDialog(this, "Recepcionista cadastrado com sucesso!");
         limparCamposRecepcionista();
     }//GEN-LAST:event_btnInserirActionPerformed
 

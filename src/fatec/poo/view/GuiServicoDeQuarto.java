@@ -65,8 +65,10 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
         txtCodigo.setName("Código"); // NOI18N
 
         cbDescricao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Água", "Doce", "Lanche", "Refrigerante", "Salgado" }));
+        cbDescricao.setEnabled(false);
         cbDescricao.setName("Descrição"); // NOI18N
 
+        txtValor.setEnabled(false);
         txtValor.setName("Valor"); // NOI18N
 
         btnConsultar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/pesq.png"))); // NOI18N
@@ -79,6 +81,7 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
 
         btnInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         btnInserir.setText("Inserir");
+        btnInserir.setEnabled(false);
         btnInserir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInserirActionPerformed(evt);
@@ -87,6 +90,7 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.setEnabled(false);
         btnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlterarActionPerformed(evt);
@@ -95,6 +99,7 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Eraser.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.setEnabled(false);
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -186,13 +191,15 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
             int numeroQuarto = Integer.parseInt(txtCodigo.getText());
             servicoQuarto = daoServicoQuarto.consultar(numeroQuarto);
             
+            txtCodigo.setEnabled(false);
+            txtValor.setEnabled(true);
+            cbDescricao.setEnabled(true);
+            cbDescricao.requestFocus();
+            
             if(servicoQuarto != null){
                 txtValor.setText(String.valueOf(servicoQuarto.getValor()));
                 cbDescricao.setSelectedItem(servicoQuarto.getDescricao());
-                txtCodigo.setEnabled(false);
-                txtValor.setEnabled(true);
-                cbDescricao.setEnabled(true);
-                cbDescricao.requestFocus();
+     
                 btnConsultar.setEnabled(false);
                 btnInserir.setEnabled(false);
                 btnAlterar.setEnabled(true);
@@ -200,10 +207,6 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
             }else{
                 btnConsultar.setEnabled(false);
                 btnInserir.setEnabled(true);
-                txtCodigo.setEnabled(false);
-                txtValor.setEnabled(true);
-                cbDescricao.setEnabled(true);
-                cbDescricao.requestFocus();
                 btnAlterar.setEnabled(false);
                 btnExcluir.setEnabled(false);
             }
@@ -218,10 +221,9 @@ public class GuiServicoDeQuarto extends javax.swing.JFrame {
         
         servicoQuarto = new ServicoQuarto(Integer.parseInt(txtCodigo.getText()), String.valueOf(cbDescricao.getSelectedItem()));
         servicoQuarto.setValor(Double.parseDouble(txtValor.getText()));
-        
-        //verificar estabelecimento de associação binaria
+      
         daoServicoQuarto.inserir(servicoQuarto);
-        
+        JOptionPane.showMessageDialog(this, "Serviço de quarto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         limparCampos();
     }//GEN-LAST:event_btnInserirActionPerformed
 

@@ -66,6 +66,7 @@ public class GuiQuarto extends javax.swing.JFrame {
 
         txtNQuarto.setName("Nº Quarto"); // NOI18N
 
+        txtValorDiaria.setEnabled(false);
         txtValorDiaria.setName("Valor Diária"); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Tipo"));
@@ -73,9 +74,11 @@ public class GuiQuarto extends javax.swing.JFrame {
         btngrpTipo.add(rdbSolteiro);
         rdbSolteiro.setSelected(true);
         rdbSolteiro.setText("Solteiro");
+        rdbSolteiro.setEnabled(false);
 
         btngrpTipo.add(rdbCasal);
         rdbCasal.setText("Casal");
+        rdbCasal.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,6 +111,7 @@ public class GuiQuarto extends javax.swing.JFrame {
 
         btnInserir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/add.png"))); // NOI18N
         btnInserir.setText("Inserir");
+        btnInserir.setEnabled(false);
         btnInserir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInserirActionPerformed(evt);
@@ -116,6 +120,7 @@ public class GuiQuarto extends javax.swing.JFrame {
 
         btnAlterar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Alterar.png"))); // NOI18N
         btnAlterar.setText("Alterar");
+        btnAlterar.setEnabled(false);
         btnAlterar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAlterarActionPerformed(evt);
@@ -124,6 +129,7 @@ public class GuiQuarto extends javax.swing.JFrame {
 
         btnExcluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/fatec/poo/view/icon/Eraser.png"))); // NOI18N
         btnExcluir.setText("Excluir");
+        btnExcluir.setEnabled(false);
         btnExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExcluirActionPerformed(evt);
@@ -223,6 +229,12 @@ public class GuiQuarto extends javax.swing.JFrame {
 
         quarto = daoQuarto.consultar(Integer.parseInt(txtNQuarto.getText()));
         
+        txtNQuarto.setEnabled(false);
+        txtValorDiaria.setEnabled(true);
+        rdbSolteiro.setEnabled(true);
+        rdbCasal.setEnabled(true);
+        txtValorDiaria.requestFocus();
+        
         if(quarto != null){
             txtValorDiaria.setText(String.valueOf(quarto.getValorDiaria()));
             switch(quarto.getTipo()){
@@ -234,18 +246,12 @@ public class GuiQuarto extends javax.swing.JFrame {
                     break;
             }
             
-            txtNQuarto.setEnabled(false);
-            txtValorDiaria.setEnabled(true);
-            txtValorDiaria.requestFocus();
-            
+           
             btnConsultar.setEnabled(false);
             btnInserir.setEnabled(false);
             btnAlterar.setEnabled(true);
             btnExcluir.setEnabled(true);
         }else{
-            txtNQuarto.setEnabled(false);
-            txtValorDiaria.setEnabled(true);
-            txtValorDiaria.requestFocus();
             
             btnConsultar.setEnabled(false);
             btnInserir.setEnabled(true);
@@ -266,6 +272,9 @@ public class GuiQuarto extends javax.swing.JFrame {
         rdbSolteiro.setSelected(true);
 
         txtNQuarto.setEnabled(true);
+        txtValorDiaria.setEnabled(false);
+        rdbSolteiro.setEnabled(false);
+        rdbCasal.setEnabled(false);
         
         txtNQuarto.requestFocus();
 
@@ -280,9 +289,9 @@ public class GuiQuarto extends javax.swing.JFrame {
         if(!Helper.isValidDouble(txtValorDiaria))return;
         quarto = new Quarto(Integer.parseInt(txtNQuarto.getText()), getSelectedTipo(), Double.parseDouble(txtValorDiaria.getText()));
         
-        //rever açociação binaria
-        
         daoQuarto.inserir(quarto);
+        JOptionPane.showMessageDialog(this, "Quarto cadastrado com sucesso!");
+
         limparCampos();
         
     }//GEN-LAST:event_btnInserirActionPerformed
