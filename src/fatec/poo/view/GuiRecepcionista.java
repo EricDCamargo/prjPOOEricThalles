@@ -333,8 +333,6 @@ public class GuiRecepcionista extends javax.swing.JFrame {
         recepcionista.setEndereco(txtEndereco.getText());
         recepcionista.setTelefone(txtTelefone.getText());
         
-        //rever açociação binaria
-        
         daoRecepcionista.inserir(recepcionista);
         JOptionPane.showMessageDialog(this, "Recepcionista cadastrado com sucesso!");
         limparCamposRecepcionista();

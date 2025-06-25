@@ -68,7 +68,7 @@ public class GuiRegistro extends javax.swing.JFrame {
         lblValorHospedagem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Registros");
+        setTitle("Registro Hospedagem");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -485,10 +485,8 @@ public class GuiRegistro extends javax.swing.JFrame {
         registro.setHospede(hospede);
         registro.setQuarto(quarto);
         
-        //reserva o quarto que foi selecionado
         quarto.reservar();
         
-        //atualiza o quarto reservado no banco de dados
         DaoQuarto daoQuarto = new DaoQuarto(prepCon.abrirConexao());
         daoQuarto.alterar(quarto);
         
